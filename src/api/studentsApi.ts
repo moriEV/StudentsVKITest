@@ -2,7 +2,7 @@ import type StudentInterface from '@/types/StudentInterface';
 
 export const getStudentsApi = async (): Promise<StudentInterface[]> => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API}students`);
+    const response = await fetch(`http://localhost:3000/api/students`);
 
     if (!response.ok) {
       throw new Error(`Ошибка HTTP: ${response.status}${response.statusText}`);

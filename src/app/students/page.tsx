@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const StudentsPage = (): React.ReactNode => (
   <Page>
     <h1>Студенты</h1>
-    <Students />
+    <Students/>
   </Page>
 );
 
