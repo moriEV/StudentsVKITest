@@ -1,18 +1,27 @@
+// src/components/Students/Students.tsx
 'use client';
 
 import useStudents from '@/hooks/useStudnets';
-import type StudentInterface from '@/types/StudentInterface';
-import styles from './Students.module.scss';
+import { useDeleteStudent } from '@/hooks/useDeleteStudents';
+import Student from './Student';
 
-const Students = (): React.ReactElement => {
+const Students = () => {
   const { students } = useStudents();
+  const deleteMutation = useDeleteStudent();
+
+  const handleDelete = (id: number) => {
+    deleteMutation.mutate(id);
+  };
+
 
   return (
-    <div className={styles.Groups}>
-      {students.map((student: StudentInterface) => (
-        <h2 key={student.id}>
-          {student.first_name}
-        </h2>
+    <div>
+      {students.map((student) => (
+        <Student
+          key={student.id}
+          student={student}
+          onDelete={handleDelete}
+        />
       ))}
     </div>
   );

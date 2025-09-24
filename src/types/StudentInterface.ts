@@ -4,4 +4,5 @@ export default interface StudentInterface {
   last_name: string | null;
   middle_name: string | null;
   groupId: number | null;
+  isDeleted?: boolean
 }

@@ -5,7 +5,7 @@ import queryClient from '@/api/reactQueryClient';
 import { getGroupsApi } from '@/api/groupsApi';
 import { getStudentsApi } from '@/api/studentsApi';
 import type GroupInterface from '@/types/GroupInterface';
-import type StudentInterface from '@/types/StudentInterface'; // ← ДОБАВЛЕНО: тип студентов
+import type StudentInterface from '@/types/StudentInterface';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 import Main from '@/components/layout/Main/Main';
@@ -23,7 +23,6 @@ const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>)
   let groups: GroupInterface[];
   let students: StudentInterface[]; 
 
-  // выполняется на сервере - загрузка групп
   await queryClient.prefetchQuery({
     queryKey: ['groups'],
     queryFn: async () => {
