@@ -1,4 +1,3 @@
-// src/hooks/useDeleteStudent.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const deleteStudentApi = async (id: number): Promise<void> => {

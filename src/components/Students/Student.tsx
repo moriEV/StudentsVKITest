@@ -1,3 +1,5 @@
+'use client';
+
 import type StudentInterface from '@/types/StudentInterface';
 import styles from './Student.module.scss';
 

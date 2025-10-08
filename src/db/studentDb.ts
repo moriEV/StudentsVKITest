@@ -4,41 +4,87 @@ import type StudentInterface from '@/types/StudentInterface';
 
 sqlite3.verbose();
 
-// Получение всех студентов
-export const getStudentsDb = async (): Promise<StudentInterface[]> => {
-  const db = new sqlite3.Database(process.env.DB ?? 'C:/Users/mclie/db/vki-web.db');
+// Вспомогательная функция для открытия БД
+const openDb = (): sqlite3.Database => {
+  return new sqlite3.Database(process.env.DB ?? 'C:/Users/mclie/db/vki-web.db');
+};
 
-  const students = await new Promise<StudentInterface[]>((resolve, reject) => {
+export const getStudentsDb = async (): Promise<StudentInterface[]> => {
+  const db = openDb();
+  return new Promise<StudentInterface[]>((resolve, reject) => {
     const sql = 'SELECT * FROM student';
-    db.all(sql, [], (err, rows) => {
+    db.all(sql, [], (err: Error | null, rows: any[]) => {
       db.close();
       if (err) {
         reject(err);
       } else {
-        resolve(rows as StudentInterface[]);
+        // Добавляем isDeleted: false, так как в БД этой колонки нет
+        const students: StudentInterface[] = rows.map(row => ({
+          ...row,
+          isDeleted: false,
+        }));
+        resolve(students);
       }
     });
   });
-
-  return students;
 };
 
-// Удаление студента по ID
 export const deleteStudentDb = async (id: number): Promise<boolean> => {
-  const db = new sqlite3.Database(process.env.DB ?? 'C:/Users/mclie/db/vki-web.db');
-
-  const result = await new Promise<boolean>((resolve, reject) => {
+  const db = openDb();
+  return new Promise<boolean>((resolve, reject) => {
     const sql = 'DELETE FROM student WHERE id = ?';
-    db.run(sql, [id], function (err) {
+    db.run(sql, [id], function (this: sqlite3.RunResult, err: Error | null) {
       db.close();
       if (err) {
         reject(err);
-        return;
+      } else {
+        resolve(this.changes > 0);
       }
-      // `this.changes` — количество затронутых строк
-      resolve(this.changes > 0);
     });
   });
+};
 
-  return result;
+export const createStudentDb = async (
+  data: {
+    first_name: string;
+    last_name: string;
+    middle_name: string | null;
+    groupId: number | null;
+  }
+): Promise<StudentInterface> => {
+  const db = openDb();
+
+  return new Promise<StudentInterface>((resolve, reject) => {
+    const sql = `
+      INSERT INTO student (first_name, last_name, middle_name, groupId)
+      VALUES (?, ?, ?, ?)
+    `;
+    const params = [
+      data.first_name,
+      data.last_name,
+      data.middle_name,
+      data.groupId,
+    ];
+
+    db.run(sql, params, function (this: sqlite3.RunResult, err: Error | null) {
+      if (err) {
+        console.error('Ошибка SQLite:', err.message);
+        db.close();
+        reject(err);
+        return;
+      }
+
+      const newStudent: StudentInterface = {
+        id: this.lastID,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        middle_name: data.middle_name,
+        groupId: data.groupId,
+        isDeleted: false,
+      };
+
+      db.close();
+      resolve(newStudent);
+    });
+  });
 };
