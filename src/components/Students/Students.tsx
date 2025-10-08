@@ -1,4 +1,3 @@
-// src/components/Students/Students.tsx
 'use client';
 
 import useStudents from '@/hooks/useStudnets';
