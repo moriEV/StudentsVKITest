@@ -1,8 +1,6 @@
 'use client';
 
-import useStudents from '@/hooks/useStudnets';
-import { useDeleteStudent } from '@/hooks/useDeleteStudents';
-import { useAddStudent } from '@/hooks/useAddStudent';
+import { useStudents } from '@/hooks/useStudents';
 import Student from './Student';
 import AddStudent from './AddStudent';
 import type StudentInterface from '@/types/StudentInterface';
@@ -13,31 +11,44 @@ type CreateStudentDto = Pick<
 >;
 
 const Students = () => {
-  const { students } = useStudents();
-  const deleteMutation = useDeleteStudent();
-  const addMutation = useAddStudent();
+  const {
+    students,
+    isLoading,
+    addStudent,
+    deleteStudent,
+    isAdding,
+    isDeleting,
+  } = useStudents();
+
+  const handleAddStudent = (data: CreateStudentDto) => {
+    addStudent(data);
+  };
 
   const handleDelete = (id: number) => {
-    deleteMutation.mutate(id);
+    deleteStudent(id);
   };
 
-  const handleAddStudent = ( data:CreateStudentDto) => {
-    addMutation.mutate(data);
-  };
+  if (isLoading) {
+    return <div>Загрузка студентов...</div>;
+  }
 
   return (
     <div>
       <h2>Добавить студента</h2>
-      <AddStudent onAdd={handleAddStudent} isPending={addMutation.isPending} />
+      <AddStudent onAdd={handleAddStudent} isPending={isAdding} />
 
       <h2>Список студентов</h2>
-      {students.map((student) => (
-        <Student
-          key={student.id}
-          student={student}
-          onDelete={handleDelete}
-        />
-      ))}
+      {students.length === 0 ? (
+        <p>Студентов пока нет</p>
+      ) : (
+        students.map((student) => (
+          <Student
+            key={student.id}
+            student={student}
+            onDelete={handleDelete}
+          />
+        ))
+      )}
     </div>
   );
 };
