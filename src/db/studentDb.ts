@@ -1,10 +1,9 @@
-// src/db/studentDb.ts
+
 import sqlite3 from 'sqlite3';
 import type StudentInterface from '@/types/StudentInterface';
 
 sqlite3.verbose();
 
-// Вспомогательная функция для открытия БД
 const openDb = (): sqlite3.Database => {
   return new sqlite3.Database(process.env.DB ?? 'C:/Users/mclie/db/vki-web.db');
 };
@@ -18,7 +17,6 @@ export const getStudentsDb = async (): Promise<StudentInterface[]> => {
       if (err) {
         reject(err);
       } else {
-        // Добавляем isDeleted: false, так как в БД этой колонки нет
         const students: StudentInterface[] = rows.map(row => ({
           ...row,
           isDeleted: false,

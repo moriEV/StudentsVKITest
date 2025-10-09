@@ -1,4 +1,3 @@
-// src/app/api/students/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getStudentsDb } from '@/db/studentDb';
 import { createStudentDb } from '@/db/studentDb';
