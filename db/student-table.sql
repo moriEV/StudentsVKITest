@@ -1,12 +1,24 @@
--- Active: 1758105251594@@127.0.0.1@3306
-CREATE TABLE student(
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    first_name TEXT,
-    last_name TEXT,
-    middle_name TEXT,
-    groupId INTEGER
+-- Active: 1761116486193@@127.0.0.1@3306
+CREATE TABLE IF NOT EXISTS "group" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    "name" varchar NOT NULL,
+    "contacts" varchar NOT NULL
 );
-INSERT INTO student (first_name, last_name, middle_name, groupId)
-VALUES ('Иван', 'Иванов', 'Иванович', 1);
-SELECT * FROM class;
-SELECT * FROM student;
+
+-- Таблица студентов
+CREATE TABLE IF NOT EXISTS "student" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    "uuid" varchar DEFAULT '',
+    "firstName" varchar NOT NULL,
+    "lastName" varchar NOT NULL,
+    "middleName" varchar NOT NULL,
+    "contacts" varchar DEFAULT '',
+    "groupId" integer NOT NULL
+);
+-- Добавляем группу
+INSERT INTO "group" ("name", "contacts")
+VALUES ('ИВТ-31', 'ivt31@example.com');
+
+-- Добавляем студента (groupId = 1 — ссылка на только что созданную группу)
+INSERT INTO "student" ("firstName", "lastName", "middleName", "contacts", "groupId")
+VALUES ('Иван', 'Иванов', 'Иванович', 'ivanov@example.com', 1);

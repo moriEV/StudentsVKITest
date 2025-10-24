@@ -13,7 +13,7 @@ export const getStudentsApi = async (): Promise<StudentInterface[]> => {
   }
 };
 
-export type CreateStudentDto = Pick<StudentInterface, 'first_name' | 'last_name' | 'middle_name' | 'groupId'>;
+export type CreateStudentDto = Pick<StudentInterface, 'firstName' | 'lastName' | 'middleName' | 'groupId'>;
 
 export const addStudentApi = async (studentData: CreateStudentDto): Promise<StudentInterface> => {
   const res = await fetch(`http://localhost:3000//api/students`, {

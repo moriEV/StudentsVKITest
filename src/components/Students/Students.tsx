@@ -7,7 +7,7 @@ import type StudentInterface from '@/types/StudentInterface';
 
 type CreateStudentDto = Pick<
   StudentInterface,
-  'first_name' | 'last_name' | 'middle_name' | 'groupId'
+  'firstName' | 'lastName' | 'middleName' | 'groupId'
 >;
 
 const Students = () => {

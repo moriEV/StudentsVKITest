@@ -1,8 +1,9 @@
 export default interface StudentInterface {
   id: number;
-  first_name: string | null;
-  last_name: string | null;
-  middle_name: string | null;
-  groupId: number | null;
-  isDeleted?: boolean
+  firstName: string;      
+  lastName: string;       
+  middleName: string;     
+  groupId: number;        
+  uuid?: string;
+  contacts?: string;
 }

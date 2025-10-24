@@ -5,7 +5,7 @@ import type StudentInterface from '@/types/StudentInterface';
 
 type AddStudentFormData =  Pick<
   StudentInterface,
-  'first_name' | 'last_name' | 'middle_name' | 'groupId'
+  'firstName' | 'lastName' | 'middleName' | 'groupId'
 >;
 
 type Props = {
@@ -21,10 +21,10 @@ const AddStudent = ({ onAdd, isPending }: Props) => {
     formState: { errors },
   } = useForm<AddStudentFormData>({
     defaultValues: {
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      groupId: null,
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      groupId: undefined,
     },
   });
 
@@ -39,33 +39,33 @@ const AddStudent = ({ onAdd, isPending }: Props) => {
       <div>
         <label>Имя:</label>
         <input
-          {...register('first_name', {
+          {...register('firstName', {
             required: 'Имя обязательно',
             maxLength: { value: 100, message: 'Не более 100 символов' },
           })}
         />
-        {errors.first_name && <p style={{ color: 'red' }}>{errors.first_name.message}</p>}
+        {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName.message}</p>}
       </div>
 
       <div>
         <label>Фамилия:</label>
         <input
-          {...register('last_name', {
+          {...register('lastName', {
             required: 'Фамилия обязательна',
             maxLength: { value: 100, message: 'Не более 100 символов' },
           })}
         />
-        {errors.last_name && <p style={{ color: 'red' }}>{errors.last_name.message}</p>}
+        {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName.message}</p>}
       </div>
 
       <div>
         <label>Отчество (необязательно):</label>
         <input
-          {...register('middle_name', {
+          {...register('middleName', {
             maxLength: { value: 100, message: 'Не более 100 символов' },
           })}
         />
-        {errors.middle_name && <p style={{ color: 'red' }}>{errors.middle_name.message}</p>}
+        {errors.middleName && <p style={{ color: 'red' }}>{errors.middleName.message}</p>}
       </div>
 
       <div>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStudentsDb } from '@/db/studentDb';
-import { createStudentDb } from '@/db/studentDb';
+import { addStudentDb } from '@/db/studentDb';
 
 export async function GET() {
   const students = await getStudentsDb();
@@ -11,14 +11,14 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    if (!body.first_name || !body.last_name) {
+    if (!body.firstName || !body.lastName) {
       return NextResponse.json(
         { error: 'Поля first_name и last_name обязательны' },
         { status: 400 }
       );
     }
 
-    const newStudent = await createStudentDb(body);
+    const newStudent = await addStudentDb(body);
     return NextResponse.json(newStudent, { status: 201 });
   } catch (error) {
     console.error('Ошибка при создании студента:', error);

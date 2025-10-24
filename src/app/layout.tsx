@@ -1,5 +1,5 @@
 import { dehydrate } from '@tanstack/react-query';
-
+import 'reflect-metadata';
 import TanStackQuery from '@/containers/TanStackQuery';
 import queryClient from '@/api/reactQueryClient';
 import { getGroupsApi } from '@/api/groupsApi';
